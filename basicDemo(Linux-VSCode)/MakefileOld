@@ -1,0 +1,42 @@
+vpath % ./obj ./bin
+
+APP_NAME = basicShader
+INCLUDE_DIR = ./include
+LIB_DIR = ./lib
+
+OBJECT_DIR = ./obj
+BIN_DIR = ./bin
+SRC_DIR = ./src
+
+ASSETS_DIR = ./assets
+
+CC = g++
+
+CFLAGS = -I $(INCLUDE_DIR)
+LIBS = -L${LDIR} -lAntTweakBar -lglfw3 -lGL -lGLU -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
+
+DEPENDENCIES := $(wildcard $(SRC_DIR)/*.h)
+SRC := $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*.cpp)
+OBJ := $(SRC:.c=.o)
+OBJ := $(OBJ:.cpp=.o)
+
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -g -c -o $@ $< $(CFLAGS)
+
+$(ODIR)/%.o: %.cpp $(DEPS)
+	$(CC) -g -c -o $@ $< $(CFLAGS)
+
+
+$(BIN_DIR)/$(APP_NAME): INIT $(OBJ)
+	$(CC) -g -o $@ $^ $(CFLAGS) $(LIBS)
+
+
+INIT:
+	mkdir $(OBJECT_DIR)
+	mkdir $(BIN_DIR)
+
+.PHONY: clean
+clean:
+	rm -rf $(OBJECT_DIR)
+	rm -rf $(BIN_DIR)

@@ -1,0 +1,3 @@
+﻿  main.cpp
+c:\users\ccg\desktop\parall\basicdemo\main.cpp(22): warning C4305: 'initializing': truncation from 'double' to 'float'
+  basicDemo.vcxproj -> C:\Users\ccg\Desktop\parall\Debug\basicDemo.exe
