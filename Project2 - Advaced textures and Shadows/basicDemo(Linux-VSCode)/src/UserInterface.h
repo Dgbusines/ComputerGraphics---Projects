@@ -29,7 +29,8 @@ public:
 	float lightP[3];
 	float heightScale;
 	float reflectance;
-	float refractance;
+	float refractAmb;
+	float refractObj;
 	bool g_Texture;
 	bool g_Reflect;
 	bool g_Refract;

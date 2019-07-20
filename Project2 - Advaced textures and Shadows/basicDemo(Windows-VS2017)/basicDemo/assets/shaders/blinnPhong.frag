@@ -79,7 +79,8 @@ uniform int onOffSpec;
 uniform int reflection;
 uniform float reflectance;
 uniform int refraction;
-uniform float refractance;
+uniform float refractAmb;
+uniform float refractObj;
 uniform samplerCube skybox;
 uniform sampler2D diffuseMap;
 uniform sampler2D normalMap;
@@ -95,7 +96,6 @@ void main()
 {
     //Lights
     vec3 color = vec3(0.0f);
-	vec3 sombrish;
     TBN = mat3(T, B, N);
 
     vec2 texCoords = fs_in.texcord;   
@@ -111,7 +111,6 @@ void main()
         color += vec3(0.0f);
     else {
         color = calculateDirLight(texCoords);
-        sombrish = color;
 	}
     if(onOffPoint == 0) 
         color += vec3(0.0f);
@@ -126,17 +125,17 @@ void main()
 
     //Final Color
     if (reflection == 1 || refraction == 1) {
-        float ratio = 1.00 / 1.52;
+        float ratio = refractAmb / refractObj;
         vec3 I = normalize(fs_in.vP - viewPos);
         vec3 Rl = reflect(I, fs_in.nM); //Reflection
         vec3 Rr = refract(I, fs_in.nM, ratio);  //Refraction
         if (reflection == 1) 
-            FragColor = vec4(texture(skybox, Rl).rgb, reflectance);
+            FragColor = vec4(texture(skybox, reflectance*Rl).rgb, 1.0);
         if (refraction == 1) 
-            FragColor = vec4(texture(skybox, Rr).rgb, refractance);
+            FragColor = vec4(texture(skybox, Rr).rgb, 1.0);
     }
     else 
-        FragColor = vec4(sombrish, 1.0);
+        FragColor = vec4(color, 1.0);
 }
 
 vec3 calculateDirLight(vec2 texCoords) {

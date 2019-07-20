@@ -59,7 +59,8 @@ CUserInterface::CUserInterface()
 	lightSelected = 1;
 	heightScale = 0.1f;
 	reflectance = 1.0f;
-	refractance = 1.0f;
+	refractAmb = 1.0f;
+	refractObj = 1.35f;
 
 	g_Texture = true;
 	g_Parall = true;
@@ -77,9 +78,10 @@ CUserInterface::CUserInterface()
 	TwAddVarRW(mUserInterface, "Point Light", TW_TYPE_INT32, &lightSelected, " group='Model' step=1 min=1 max=2");
 	TwAddVarRW(mUserInterface, "Texture", TW_TYPE_BOOLCPP, &g_Texture, " group='Textures' ");
 	TwAddVarRW(mUserInterface, "Parallax", TW_TYPE_BOOLCPP, &g_Parall, " group='Textures' ");
-	TwAddVarRW(mUserInterface, "Reflectance", TW_TYPE_FLOAT, &reflectance, " group='Textures' step=0.1");
-	TwAddVarRW(mUserInterface, "Refractance", TW_TYPE_FLOAT, &refractance, " group='Textures' step=0.1");
-	TwAddVarRW(mUserInterface, "HeightScale", TW_TYPE_FLOAT, &heightScale, " group='Textures' step=0.1");
+	TwAddVarRW(mUserInterface, "Reflectance", TW_TYPE_FLOAT, &reflectance, " group='Textures' step=0.01");
+	TwAddVarRW(mUserInterface, "Refract_Amb", TW_TYPE_FLOAT, &refractAmb, " group='Textures' step=0.01");
+	TwAddVarRW(mUserInterface, "Refract_Obj", TW_TYPE_FLOAT, &refractObj, " group='Textures' step=0.01");
+	TwAddVarRW(mUserInterface, "HeightScale", TW_TYPE_FLOAT, &heightScale, " group='Textures' step=0.01");
     TwAddVarRW(mUserInterface, "Reflection", TW_TYPE_BOOLCPP, &g_Reflect, " group='Model' ");
     TwAddVarRW(mUserInterface, "Refraction", TW_TYPE_BOOLCPP, &g_Refract, " group='Model' ");
 	TwAddVarRW(mUserInterface, "Translation X", TW_TYPE_FLOAT, &mModelTranslation[0], " group='Model' step=0.1 ");

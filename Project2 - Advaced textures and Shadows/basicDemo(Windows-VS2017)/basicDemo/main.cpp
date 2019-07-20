@@ -501,7 +501,7 @@ void render(Shader *shader)
     glm::mat4 model_02 = glm::mat4(1.0f);
     glm::mat4 model_03 = glm::mat4(1.0f);
     glm::mat4 model1 = glm::mat4(1.0f);
-    model1 = glm::translate(model1, lightPos);
+    model1 = glm::translate(model1, -lightPos);
     model1 = glm::scale(model1, glm::vec3(0.2f));
     model_02 = glm::translate(model_02, glm::vec3(-0.5f, 3.0f, 5.0f));
     model_03 = glm::translate(model_03, glm::vec3(-1.5f, 3.0f, -7.0f));
@@ -637,7 +637,8 @@ void render(Shader *shader)
 			shader->setVec3("viewPos", mov->getCameraPos());
 			shader->setFloat("heightScale", userInterface->heightScale);
 			shader->setFloat("reflectance", userInterface->reflectance);
-			shader->setFloat("refractance", userInterface->refractance);
+			shader->setFloat("refractAmb", userInterface->refractAmb);
+			shader->setFloat("refractObj", userInterface->refractObj);
 			shader->setMat4("lightSpaceMatrix", lightSpaceMatrix);
 
             glBindVertexArray(VAO[i]);
@@ -892,12 +893,11 @@ void render(Shader *shader)
 	//Transparent box
 	model = glm::translate(model, glm::vec3(-6.0f, 0.0f, 0.0f));
 	blendShader->use();
-	blendShader->setInt("transparent", 0);
+	blendShader->setInt("transparent", 6);
 	blendShader->setMat4("model", model);
 	blendShader->setMat4("view", view);
 	blendShader->setMat4("projection", projection);
-	sunShader->setBool("onOffDir", userInterface->showLigthsDir);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, textureID[7]);
 
 	glBindVertexArray(VAO[0]);
@@ -1064,9 +1064,9 @@ void renderDepht()
 
 	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glClear(GL_DEPTH_BUFFER_BIT);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID[0]);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glClear(GL_DEPTH_BUFFER_BIT);
 	render(depthShader);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
